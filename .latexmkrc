@@ -1,3 +1,7 @@
+# Build PDF and enable shell-escape (required by minted).
+$pdf_mode = 1;
+$pdflatex = 'pdflatex --shell-escape %O %S';
+
 # Configuration for latexmk to use makeglossaries
 # https://tex.stackexchange.com/questions/1226/how-to-make-latexmk-use-makeglossaries
 

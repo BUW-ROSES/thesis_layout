@@ -1,0 +1,111 @@
+% !TEX root = ../thesis.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% template/frontmatter.tex
+%% Title page, declaration PDF, publication consent, abstract, TOC.
+%% Do not edit unless you know what you are doing.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pagenumbering{Roman}
+\pagestyle{plain}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Title page
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{titlepage}
+  \centering
+
+  \vspace*{2em}
+  \includegraphics[width=11cm]{\buwlogopdf}
+
+  \vspace{5em}
+  {\Large\textsc{\thesistype} in \textsc{\studyprogram}}
+
+  \vspace{4em}
+  \noindent{\color{primary}\rule{\textwidth}{1pt}}\par
+  \vspace{0.6em}
+  {\Huge\bfseries\thesistitle\par}
+  \vspace{0.6em}
+  \noindent{\color{primary}\rule{\textwidth}{1pt}}
+
+  \vspace{3em}
+  {\Large\bfseries\authorname}\\[0.6em]
+  {\large\submissiondate}
+
+  \vspace{3em}
+  {\large\researchgroup}\\
+  {\large\faculty}\\
+  {\large University of Wuppertal}
+
+  \vfill
+
+  \noindent\begin{tabular}{@{}p{3.8cm}p{8cm}@{}}
+    Advisor:         & \textbf{\supervisor}     \\[0.7em]
+    First Examiner:  & \textbf{\firstexaminer}  \\[0.7em]
+    Second Examiner: & \textbf{\secondexaminer} \\
+  \end{tabular}
+\end{titlepage}
+
+\ifbool{twoside}{}{\stepcounter{page}}
+\clearpage{\pagestyle{empty}\cleardoublepage}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Eidesstattliche Versicherung — official BUW declaration form
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pdfbookmark[1]{Declaration}{declaration}%
+\includepdf[pages={1-2},fitpaper=true]{forms/declaration.pdf}%
+\clearpage{\pagestyle{empty}}%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Erklärung zur Veröffentlichung (ROSES variant — kept in German)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pdfbookmark[1]{Publication Consent}{consent}%
+\vspace*{2em}%
+\section*{Erklärung zur Veröffentlichung}
+\noindent Ich erkläre mich damit einverstanden, dass meine Abschlussarbeit in der Forschungsgruppe \researchgroup{} dauerhaft in elektronischer und gedruckter Form aufbewahrt wird und dass die Ergebnisse aus dieser Arbeit unter Einhaltung guter wissenschaftlicher Praxis in der Forschung weiter verwendet werden dürfen. Weiterhin erkläre ich mich damit einverstanden, dass die Abschlussarbeit auf der Webseite des Lehrstuhls/Betreuers/Prüfers veröffentlicht werden darf.
+
+\vspace{4em}
+\begin{tabular}{lc}
+  \submissionlocation, \submissiondate \hspace*{1cm} & \rule[-2px]{5cm}{0.5px} \\
+                                                     & \footnotesize{(Unterschrift)}
+\end{tabular}
+\clearpage{\pagestyle{empty}\cleardoublepage}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Acknowledgements (optional, toggle in settings.tex)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ifbool{acknowledgements}{%
+  \vspace*{\fill}\vspace{-3em}%
+  \pdfbookmark[1]{Acknowledgements}{acknowledgements}%
+  \input{chapters/acknowledgements}%
+  \vfill%
+}{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Abstract
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage{\pagestyle{empty}\cleardoublepage}
+\vspace*{\fill}\vspace{-3em}
+\pdfbookmark[1]{Abstract}{abstract}
+\input{chapters/abstract}
+\vfill
+\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Table of Contents
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\markboth{\contentsname}{}
+\pdfbookmark[1]{\contentsname}{toc}
+\begingroup
+  \renewcommand{\markboth}[2]{}
+  \tableofcontents
+\endgroup
+\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% End of frontmatter — switch to arabic page numbering and main page style
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ifbool{twoside}{\clearpage\hphantom{anchor}}{}%
+{\pagestyle{empty}\cleardoublepage}%
+\pagenumbering{arabic}%
+\setcounter{page}{1}%
+\pagestyle{scrheadings}%
