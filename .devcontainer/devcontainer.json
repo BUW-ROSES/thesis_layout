@@ -24,7 +24,7 @@
             "name": "latexmk",
             "command": "latexmk",
             "args": [
-              "-shell-escape",
+              "--shell-escape",
               "-synctex=1",
               "-interaction=nonstopmode",
               "-file-line-error",
@@ -37,13 +37,10 @@
         ],
         "latex-workshop.view.pdf.trim": 1,
         "latex-workshop.view.pdf.viewer": "tab",
+        "ltex.ltex-ls.path": "/opt/ltex/",
         "ltex.java.path": "/usr/lib/jvm/default-java",
         "ltex.language": "en-US",
-        "ltex.latex.commands": {
-          "\\lstinput{}": "ignore",
-          "\\lstinline||": "ignore",
-          "\\lstinline{}": "ignore"
-        },
+        "telemetry.": false,
         "telemetry.enableTelemetry": false,
         "todo-tree.regex.regex": "%\\s*($TAGS)",
         "todo-tree.regex.regexCaseSensitive": false

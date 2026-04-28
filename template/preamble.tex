@@ -1,0 +1,282 @@
+% !TEX root = ../thesis.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% template/preamble.tex
+%% Loaded BEFORE \documentclass — declares booleans, reads settings.tex,
+%% then calls \documentclass and configures all packages and styles.
+%% Do not edit unless you know what you are doing. Use settings.tex instead.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\RequirePackage{fix-cm,cmap}
+\RequirePackage[utf8]{inputenc}
+\RequirePackage[T1]{fontenc}
+\RequirePackage{etoolbox}
+
+%% Boolean declarations (values set in settings.tex)
+\newbool{twoside}
+\newbool{markLinks}
+\newbool{color}
+\newbool{acknowledgements}
+\newbool{listoffigures}
+\newbool{listoflistings}
+\newbool{listoftables}
+\newbool{listofacronyms}
+\newbool{glossary}
+\newbool{mergeListings}
+
+\input{settings}
+
+\ifbool{twoside}{\def\onetwoside{twoside}}{\def\onetwoside{oneside}}
+
+\documentclass[
+  fontsize=11pt,
+  paper=a4,
+  numbers=noenddot,
+  \onetwoside,
+  open=right,
+  cleardoublepage=plain,
+  parskip=half+,
+  BCOR=1cm,
+]{scrreprt}
+
+%% TOC depth
+\setcounter{tocdepth}{3}
+\setcounter{secnumdepth}{3}
+
+%% Language
+\usepackage[english]{babel}
+\usepackage{lmodern}
+
+%% Bibliography
+\usepackage[
+  style=numeric,
+  giveninits=false,
+  natbib=true,
+  backend=biber,
+  maxbibnames=99,
+  defernumbers=true,
+  language=autobib,
+  date=long,
+]{biblatex}
+\setcounter{biburlnumpenalty}{9000}
+\setcounter{biburllcpenalty}{9000}
+\setcounter{biburlucpenalty}{9000}
+\addbibresource{literature/literature.bib}
+
+%% Graphics + PDF includes (mandatory for declaration PDF)
+\usepackage{graphicx}
+\usepackage{pdfpages}
+
+%% Math
+\usepackage{amsmath, amssymb, amsfonts}
+
+%% Tables
+\usepackage{booktabs}
+\usepackage{multirow}
+
+%% TikZ (used for title page accent)
+\usepackage{tikz}
+
+%% Symbols / icons
+\usepackage{marvosym}
+\usepackage{fontawesome5}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Colors — full BUW palette + grayscale fallback
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[table,showerrors]{xcolor}
+
+\definecolor{Buw}            {cmyk}{0.55, 0.00, 1.00, 0.00} % Pantone 376
+\definecolor{BuwEtikett}     {cmyk}{0.55, 0.00, 1.00, 0.10}
+\definecolor{BuwFak01}       {cmyk}{0.08, 1.00, 0.65, 0.34} % Pantone 201
+\definecolor{BuwFak02}       {cmyk}{1.00, 0.03, 0.34, 0.12} % Pantone 321
+\definecolor{BuwFak03}       {cmyk}{1.00, 0.57, 0.12, 0.70} % Pantone 540
+\definecolor{BuwFak04_oben}  {cmyk}{0.70, 0.30, 0.00, 0.12} % Pantone 646
+\definecolor{BuwFak04_unten} {cmyk}{1.00, 0.61, 0.04, 0.26} % Pantone 301
+\definecolor{BuwFak05}       {cmyk}{0.23, 0.17, 0.13, 0.46} % Pantone Cool Gray 8
+\definecolor{BuwFak06_oben}  {cmyk}{0.37, 1.00, 0.00, 0.26} % Pantone 2425
+\definecolor{BuwFak06_unten} {cmyk}{0.37, 1.00, 0.00, 0.47}
+\definecolor{BuwFak07}       {cmyk}{1.00, 0.00, 0.55, 0.40} % Pantone 562
+\definecolor{BuwFak08}       {cmyk}{0.00, 0.00, 0.00, 0.00}
+\definecolor{BuwFak09}       {cmyk}{0.00, 0.30, 0.85, 0.00} % Pantone 1235
+\definecolor{pureK}          {cmyk}{0.00, 0.00, 0.00, 1.00}
+\definecolor{AccentStrong}   {cmyk}{0.000, 0.420, 0.800, 0.100}
+\definecolor{AccentWeak}     {cmyk}{0.295, 0.142, 0.000, 0.310}
+
+\ifbool{color}{
+  \colorlet{primaryTop}     {Buw}
+  \colorlet{primaryMiddle}  {Buw}
+  \colorlet{primaryBottom}  {Buw}
+  \colorlet{secondaryTop}   {BuwFak06_oben}
+  \colorlet{secondaryMiddle}{BuwFak06_oben!50!BuwFak06_unten}
+  \colorlet{secondaryBottom}{BuwFak06_unten}
+  \colorlet{tertiaryTop}    {black!50}
+  \colorlet{tertiaryMiddle} {black!50}
+  \colorlet{tertiaryBottom} {black!50}
+  \colorlet{textBlack}      {black}
+}{
+  % Grayscale: avoid pure black for the thick head/foot rules — use a softer gray
+  \colorlet{primaryTop}     {pureK!45}
+  \colorlet{primaryMiddle}  {pureK!45}
+  \colorlet{primaryBottom}  {pureK!45}
+  \colorlet{secondaryTop}   {pureK!60}
+  \colorlet{secondaryMiddle}{pureK!60}
+  \colorlet{secondaryBottom}{pureK!60}
+  \colorlet{tertiaryTop}    {pureK!40}
+  \colorlet{tertiaryMiddle} {pureK!40}
+  \colorlet{tertiaryBottom} {pureK!40}
+  \colorlet{textBlack}      {pureK}
+}
+\colorlet{primary}    {primaryMiddle}
+\colorlet{secondary}  {secondaryMiddle}
+\colorlet{tertiary}   {tertiaryMiddle}
+
+\colorlet{pagenumber}  {tertiaryBottom!50!textBlack}
+\colorlet{headrule}    {primaryTop}
+\colorlet{footrule}    {primaryBottom}
+\colorlet{footnoteRule}{secondary}
+
+%% Logo selection (color vs. grayscale)
+\newcommand{\buwlogopdf}{images/BUW_Logo_cmykblack.pdf}
+\ifbool{color}{\renewcommand{\buwlogopdf}{images/BUW_Logo_richblack.pdf}}{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Code listings — minted (RUB default)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[newfloat]{minted}
+\SetupFloatingEnvironment{listing}{name=Listing}
+\setminted{
+  frame=single,
+  fontsize=\footnotesize,
+  linenos=true,
+  numbersep=5pt,
+  breaklines=true,
+  breakautoindent=true,
+  breakbefore=.,
+  breakafter=-,
+  escapeinside=~~
+}
+\BeforeBeginEnvironment{minted}{\smallskip}
+\AfterEndEnvironment{minted}{\smallskip}
+\setmintedinline{
+  fontsize=\small,
+  escapeinside=~~,
+  breakbefore=.,
+  breakafter=-:/\,
+}
+\newmintinline[code]{text}{}
+\newmintinline[js]{javascript}{}
+\newmintinline[html]{html}{}
+\newmintinline[json]{json}{}
+
+%% Quotes (loaded after minted/fvextra to avoid lineno warning)
+\usepackage[babel,english=american]{csquotes}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Glossaries (RUB approach — clickable acronyms, no \glsdisablehyper)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[acronym]{glossaries}
+\makeglossaries
+\loadglsentries{glossary/glossary}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Page geometry
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\areaset[1cm]{15cm}{23cm}
+\setlength{\headheight}{1.4cm}
+\setlength{\footskip}{1.4cm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Headers / Footers — KOMA scrlayer-scrpage with BUW logo + colored rules
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[automark,headsepline=1.5mm,footsepline=1.5mm]{scrlayer-scrpage}
+
+\setkomafont{headsepline}{\color{headrule}}
+\setkomafont{footsepline}{\color{footrule}}
+\addtokomafont{pagehead}{\sffamily}
+\addtokomafont{pagenumber}{\sffamily\bfseries\color{pagenumber}}
+
+\automark[section]{chapter}
+
+\clearpairofpagestyles
+% Outer head: BUW logo (right on odd recto, left on even verso)
+\rohead{\includegraphics[height=1.8em]{\buwlogopdf}}
+\lehead{\includegraphics[height=1.8em]{\buwlogopdf}}
+% Inner head: chapter + section. Tabular locks per-slot alignment.
+% Negative hspace compensates babel's leading injection in \leftmark/\rightmark.
+\lohead{\begin{tabular}[b]{@{}l@{}}\hspace*{-32pt}\textbf{\leftmark}\\\hspace*{-29pt}\rightmark\end{tabular}}
+\rehead{\begin{tabular}[b]{@{}r@{}}\textbf{\leftmark}\\\rightmark\end{tabular}}
+% Outer foot: page number, raised slightly to keep distance from the foot rule
+\ofoot*{\rule{0pt}{1.6em}\pagemark}
+\pagestyle{scrheadings}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Chapter / section title format — cascading colored numbers (KOMA-native)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setkomafont{disposition}{\sffamily\bfseries}
+\setkomafont{chapter}{\Huge}
+\setkomafont{section}{\LARGE}
+\setkomafont{subsection}{\Large}
+\setkomafont{subsubsection}{\large}
+
+\renewcommand*{\chapterformat}{\thechapter\autodot\enskip}
+
+\renewcommand*{\sectionformat}{%
+  \textcolor{textBlack!50}{\thechapter.}%
+  \arabic{section}\autodot\enskip%
+}
+
+\renewcommand*{\subsectionformat}{%
+  \textcolor{textBlack!33}{\thechapter.}%
+  \textcolor{textBlack!50}{\arabic{section}.}%
+  \arabic{subsection}\autodot\enskip%
+}
+
+\renewcommand*{\subsubsectionformat}{%
+  \textcolor{textBlack!20}{\thechapter.}%
+  \textcolor{textBlack!33}{\arabic{section}.}%
+  \textcolor{textBlack!50}{\arabic{subsection}.}%
+  \arabic{subsubsection}\autodot\enskip%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Hyperlinks (loaded last, except for cleveref-style add-ons)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\RequirePackage{nameref}
+\usepackage[
+  breaklinks,
+  hyperindex,
+  colorlinks=false,
+  pdftex,
+  bookmarks=true,
+  bookmarksopen=true,
+  bookmarksnumbered=true,
+]{hyperref}
+
+\ifbool{markLinks}{}{\hypersetup{hidelinks}}
+
+%% Allow minted's \code|...| (and similar inline-verbatim macros) inside PDF metadata
+\pdfstringdefDisableCommands{%
+  \def\code|#1|{#1}%
+  \def\js|#1|{#1}%
+  \def\html|#1|{#1}%
+  \def\json|#1|{#1}%
+}
+
+\hypersetup{
+  pdftitle  = {\thesistitle},
+  pdfauthor = {\authorname},
+  pdfsubject= {\thesistype},
+  pdfkeywords={\keywords},
+  pdfcreator= {LaTeX},
+  unicode   = true,
+}
+
+\addto\extrasenglish{
+  \def\chapterautorefname{Chapter}
+  \def\sectionautorefname{Section}
+  \def\subsectionautorefname{Subsection}
+  \def\subsubsectionautorefname{Subsubsection}
+  \def\paragraphautorefname{Paragraph}
+  \def\subparagraphautorefname{Subparagraph}
+  \def\listingautorefname{Listing}
+}

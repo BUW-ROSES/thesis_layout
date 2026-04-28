@@ -1,0 +1,66 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% template/backmatter.tex
+%% List of Figures, List of Listings, List of Tables,
+%% List of Acronyms, Glossary, List of AI-Tools, Bibliography.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Helper: add an entry to the TOC and set a hyperref anchor at the right position.
+\newcommand{\tocEntry}[2]{%
+  % #1 visible name, #2 hyperref label
+  \clearpage%
+  \phantomsection%
+  \nopagebreak%
+  \addcontentsline{toc}{chapter}{#1}%
+  \nopagebreak%
+}
+
+\clearpage{\pagestyle{empty}\cleardoublepage}%
+\begingroup
+  %% Avoid duplicated header marks for back matter listings
+  \let\oldmarkboth\markboth
+  \renewcommand{\markboth}[2]{\oldmarkboth{##1}{}}
+
+  %% mergeListings: replace inter-list page breaks with a small vertical skip
+  \ifbool{mergeListings}{\def\clearpage{\vspace{2em}}}{}%
+
+  \ifbool{listoffigures}{%
+    \clearpage%
+    \tocEntry{\listfigurename}{lof}%
+    \listoffigures%
+  }{}%
+
+  \ifbool{listoflistings}{%
+    \clearpage%
+    \tocEntry{List of Listings}{lol}%
+    \listoflistings%
+  }{}%
+
+  \ifbool{listoftables}{%
+    \clearpage%
+    \tocEntry{\listtablename}{lot}%
+    \listoftables%
+  }{}%
+
+  \ifbool{listofacronyms}{%
+    \clearpage%
+    \tocEntry{\acronymname}{loa}%
+    \printglossary[type=\acronymtype,style=long]%
+  }{}%
+
+  \ifbool{glossary}{%
+    \clearpage%
+    \tocEntry{\glossaryname}{glo}%
+    \printglossary[type=main,style=altlist]%
+  }{}%
+
+  %% List of AI-Tools
+  \clearpage%
+  \tocEntry{List of AI-Tools}{loait}%
+  \chapter*{List of AI-Tools}%
+  \input{appendix/tools}%
+
+  %% Bibliography
+  \clearpage%
+  \tocEntry{\bibname}{bib}%
+  \printbibliography[title={\bibname}]%
+\endgroup
