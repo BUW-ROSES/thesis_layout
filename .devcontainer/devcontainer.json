@@ -4,9 +4,7 @@
   "customizations": {
     "vscode": {
       "settings": {
-        "telemetry.telemetryLevel": "off",
-        "todo-tree.regex.regex": "%\\s*($TAGS)",
-        "todo-tree.regex.regexCaseSensitive": false
+        "telemetry.telemetryLevel": "off"
       }
     }
   }
