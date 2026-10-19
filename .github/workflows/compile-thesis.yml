@@ -13,10 +13,6 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# Opt actions/checkout and actions/upload-artifact (still on Node 20) into Node 24.
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -31,19 +27,19 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       # Compile the thesis
       - name: Compile thesis
-        uses: xu-cheng/latex-action@v3
+        uses: xu-cheng/latex-action@v4
         with:
           root_file: thesis.tex
           latexmk_shell_escape: true # necessary for minted package
-          docker_image: ghcr.io/chearix/vscode-devcontainer-latex:main
+          docker_image: ghcr.io/chearix/vscode-devcontainer-latex:2026
 
       # Publish the built PDF as a workflow artifact (90-day retention, useful for PR builds)
       - name: Upload PDF
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: thesis
           path: thesis.pdf
@@ -53,7 +49,7 @@ jobs:
       # Stable URL: https://github.com/<owner>/<repo>/releases/latest/download/thesis.pdf
       - name: Update "latest" release
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: latest
           name: Latest build
